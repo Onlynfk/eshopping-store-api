@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(3i(c1$4tdb+vj6bb+u7t_gt=6w4rw8b)xjpmva26(96m9(747
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -155,4 +155,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import dj_database_url
 prod_db =  dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)django_heroku.settings(locals())
+DATABASES['default'].update(prod_db)
+django_heroku.settings(locals())
