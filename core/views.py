@@ -135,13 +135,16 @@ def create_product(request):
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
 
+
 @api_view(('GET',))
 def add_to_cart(request, pk):
     item = get_object_or_404(Product, pk=pk)
     order_item, created = OrderItem.objects.get_or_create(
         item=item,
         user=request.user,
-        ordered=False
+        ordered=False,
+        store=item.store
+
     )
     order_qs = Order.objects.filter(customer=request.user, ordered=False)
     if order_qs.exists():
@@ -169,7 +172,6 @@ def remove_single_item_from_cart(request, pk):
     order_qs = Order.objects.filter(
         customer=request.user,
         ordered=False,
-        store=item.store or None
     )
     
     if order_qs.exists():
