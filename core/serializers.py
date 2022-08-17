@@ -17,7 +17,7 @@ class ProductSerializer(serializers.ModelSerializer):
    
 
 class StoreSerializer(serializers.ModelSerializer):
-    products = OrderItemSerializer(read_only=True, many=True)
+    products = ProductSerializer(read_only=True, many=True)
 
     class Meta:
         model = Store
