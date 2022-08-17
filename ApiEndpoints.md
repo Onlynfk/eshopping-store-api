@@ -1,5 +1,11 @@
 START_URL = https://eshop23.herokuapp.com
 
+### User Login 
+METHOD: POST
+Desc: User login
+URL - {{START_URL}}/api/token/
+
+
 ### Store Endpoints
 
 METHOD: POST
@@ -75,7 +81,7 @@ URL - {{START_URL}}/orders/<order_id>/
 Hint: an order state can be updated
 METHOD: GET
 Desc: Update an order
-URL - {{START_URL}}/orders/<order_id>/
+URL - {{START_URL}}/orders/<order_id>/update/
 
 ### Checkout your order 
 Hint: needed to only send to send orders checkout to store owners
