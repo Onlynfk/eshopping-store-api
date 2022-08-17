@@ -1,10 +1,6 @@
 # ESHopping-store-api
 
-## Live Site : https://eshop23.herokuapp.com/admin/
-
-### User Testing Credentials
-username : tester
-password : pass22nfk
+## Live Site : https://eshop23.herokuapp.com
 
 ## Installation (Running) Locally
 ```sh
@@ -41,16 +37,16 @@ $ python manage.py migrate
 
 
 ## Further Improvements
-
 *  Fully functional User Authentication with User Profile
-
 *  Fully functional User Cart System.
-
-* Some of the logic in the API views should be decomped to model methods.
-
-* Billing information should be added to the Order model.
-
-
+*  Some of the logic in the API views should be decomped to model methods.
+*  Billing information should be added to the Order model.
+*  full CRUD endpoints for both Order and Product model.
+*  More in depth unit testing on orders.
+*  Restrict permission to update orders to only the creator(user) and admin.
+*  Run few background tasks using celery and redis
+*  An endpoint to let store owners add products to their store directly
+* and more.. 
 
 ### API ENDPOINTS 
 START_URL = https://eshop23.herokuapp.com
