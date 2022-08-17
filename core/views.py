@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import StoreSerializer,ProductSerializer, OrderSerializer
+from .serializers import StoreSerializer,ProductSerializer, OrderSerializer,StoreOrdersSerializer
 from .models import Order, OrderItem, Product, Store
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -50,6 +50,14 @@ def store_detials(request, pk):
 
 
 @api_view(('GET',))
+def all_store_orders(request, pk):
+    store = get_object_or_404(Store, pk=pk)
+    serializer = StoreOrdersSerializer(store, many=False)
+    return Response(serializer.data)
+
+
+
+@api_view(('GET',))
 def order_details(request, pk):
     order = get_object_or_404(Order, pk=pk)
     serializer = OrderSerializer(order, many=False)
@@ -72,13 +80,20 @@ def all_orders(request):
 
 @api_view(('GET',))
 def checkout(request):
-    orders = Order.objects.filter(ordered=False)
-    if orders.exists():
+    order = Order.objects.filter(ordered=False)
+    if order.exists():
+        orders = order[0]
         length = orders.items.count()
         if length > 0 :
             orders.ordered = True
             orders.save()
-            serializer = OrderSerializer(orders, many=True)
+            for placed_orders in orders.items.all():
+                placed_orders.state = "opened"
+                placed_orders.save()
+                store = Store.objects.filter(pk=placed_orders.store.id).first()
+                store.all_orders.add(placed_orders)
+                store.save()
+            serializer = OrderSerializer(orders, many=False)
             return Response(serializer.data)
         message = {'message': 'You do not have Items in your order'}
         return Response(status=404, data=message)
@@ -107,11 +122,14 @@ def create_product(request):
     user = request.user
     product_name = data.get("name")
     product_price = data.get("price")
+    store_id = data.get("store")
+    
     
     product = Product.objects.create(
         owner=user,
         price=product_price,
-        name= product_name
+        name= product_name,
+        store_id=store
     )
     product.save()
     serializer = ProductSerializer(product, many=False)
@@ -150,8 +168,10 @@ def remove_single_item_from_cart(request, pk):
     item = get_object_or_404(Product, pk=pk)
     order_qs = Order.objects.filter(
         customer=request.user,
-        ordered=False
+        ordered=False,
+        store=item.store or None
     )
+    
     if order_qs.exists():
         order = order_qs[0]
         # check if the order item is in the order
