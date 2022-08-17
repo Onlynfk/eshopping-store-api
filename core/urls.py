@@ -9,6 +9,7 @@ urlpatterns = [
     path('store/create/',CreateStoreViewSet.as_view(), name="create-store"),  
     path('store/', list_stores, name="list-store"),  
     path('store/<int:pk>/orders/',all_store_orders, name="detail-orders"),  
+    path('store/<int:pk>/',store_detials, name="detail-orders"),  
 
     path('product/create/',create_product, name="create-product"),  
     path('products/',product_list, name="list-product"), 
