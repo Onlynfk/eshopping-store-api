@@ -1,7 +1,7 @@
 from rest_framework import routers
 from .views import( CreateStoreViewSet, list_stores, store_detials,
                    add_to_cart,remove_single_item_from_cart,all_orders,user_order_list,
-                   order_details,checkout,all_store_orders,
+                   order_details,checkout,all_store_orders,order_update,
                    create_product,product_list,product_detail)
 from django.urls import path, include
 
@@ -21,6 +21,8 @@ urlpatterns = [
 
     path('orders/<int:pk>/', order_details, name='detail-order'),
     path('orders/', all_orders, name='list-orders'),
+    path('orders/<int:pk>/update/', order_update, name='update-order'),
+
     path('orders/me/', user_order_list, name='user-orders'),
     
     

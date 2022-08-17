@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import StoreSerializer,ProductSerializer, OrderSerializer,StoreOrdersSerializer
+from .serializers import StoreSerializer,ProductSerializer, OrderSerializer,StoreOrdersSerializer,OrderItemSerializer
 from .models import Order, OrderItem, Product, Store
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -59,10 +59,19 @@ def all_store_orders(request, pk):
 
 @api_view(('GET',))
 def order_details(request, pk):
-    order = get_object_or_404(Order, pk=pk)
-    serializer = OrderSerializer(order, many=False)
+    order = get_object_or_404(OrderItem, pk=pk)
+    serializer = OrderItemSerializer(order, many=False)
     return Response(serializer.data)
 
+@api_view(('PATCH',))
+def order_update(request, pk):
+    order = get_object_or_404(OrderItem, pk=pk)
+    data = request.data
+    state = data.get("state")
+    order.state = state
+    order.save()
+    serializer = OrderItemSerializer(order, many=False)
+    return Response(serializer.data)
 
 
 @api_view(('GET',))
@@ -74,8 +83,8 @@ def user_order_list(request):
 
 @api_view(('GET',))
 def all_orders(request):
-    orders = Order.objects.all()
-    serializer = OrderSerializer(orders, many=True)
+    orders = OrderItem.objects.all()
+    serializer = OrderItemSerializer(orders, many=True)
     return Response(serializer.data)
 
 @api_view(('GET',))

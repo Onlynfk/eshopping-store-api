@@ -1,58 +1,3 @@
-# ESHopping-store-api
-
-## Live Site : https://eshop23.herokuapp.com/admin/
-
-### User Testing Credentials
-username : tester
-password : pass22nfk
-
-## Installation (Running) Locally
-```sh
-
-$ git clone https://github.com/Onlynfk/django-immunization-managment-system.git
-
-$ pipenv shell
-
-$ pip install -r requirements.txt
-
-$ python manage.py makemigrations
-
-$ python manage.py migrate
-
-
-## Features
-- user login
-- create a shopping store
-- fetch list of store
-- fetch specific store
-- add a product(item)
-- get a product
-- list all products
-- add product to an order
-- remove product from an order
-- fetch all orders
-- fetch specific order
-- fetch a store orders
-- update state of an order
-- admin can update state of an order via admin site
-- cancelled order  sets the deleted order field to true
-- admin cannot alter an order fields except order stata
-- more .. etc
-
-
-## Further Improvements
-
-*  Fully functional User Authentication with User Profile
-
-*  Fully functional User Cart System.
-
-* Some of the logic in the API views should be decomped to model methods.
-
-* Billing information should be added to the Order model.
-
-
-
-### API ENDPOINTS 
 START_URL = https://eshop23.herokuapp.com
 
 ### Store Endpoints
@@ -138,37 +83,6 @@ Hint: needed to only send to send orders checkout to store owners
 METHOD: GET
 Desc: Checkout Order
 URL - {{START_URL}}/checkout/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
