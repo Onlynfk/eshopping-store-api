@@ -74,7 +74,7 @@ def user_order_list(request):
 
 @api_view(('GET',))
 def all_orders(request):
-    orders = Order.objects.filter(ordered=True)
+    orders = Order.objects.all()
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data)
 
@@ -89,6 +89,7 @@ def checkout(request):
             orders.save()
             for placed_orders in orders.items.all():
                 placed_orders.state = "opened"
+                placed_orders.ordered = True
                 placed_orders.save()
                 store = Store.objects.filter(pk=placed_orders.store.id).first()
                 store.all_orders.add(placed_orders)
